@@ -26,6 +26,7 @@ rl.on("close", () => {
   console.log(stepCount);
 });
 
+// returns the number of cells that flashed on this step
 function step(octoMap) {
   const flashers = [];
 
@@ -48,6 +49,7 @@ function increment(octoMap, key, skipZero = false) {
   }
 }
 
+// returns the number of cells that flashed
 function flash(octoMap, keys) {
   let flashCount = keys.length;
   let flashers = [];
