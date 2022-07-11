@@ -1,4 +1,4 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 use std::fs::File;
 use std::io::Read;
 use std::str::Split;
@@ -12,19 +12,14 @@ fn main() {
 }
 
 struct Santa {
-    gifts: HashMap<i32, HashMap<i32, i32>>,
+    houses: HashSet<(i32, i32)>,
     x: i32,
     y: i32,
 }
 
 fn get_new_santa () -> Santa {
-    let mut gifts: HashMap<i32, HashMap<i32, i32>> = HashMap::new();
-    let mut nested_map: HashMap<i32, i32> = HashMap::new();
-    nested_map.insert(0, 1);
-    gifts.insert(0, nested_map);
-
     return Santa {
-        gifts,
+        houses: HashSet::from([(0, 0)]),
         x: 0,
         y: 0,
     };
@@ -37,7 +32,7 @@ fn part1(parts: Split<&str>) {
         apply_part(part, &mut santa);
     }
 
-    println!("total house count: {}", count_houses(santa));
+    println!("total house count: {}", santa.houses.len());
 }
 
 fn part2(parts: Split<&str>) {
@@ -52,9 +47,10 @@ fn part2(parts: Split<&str>) {
         apply_part(part, santa);
     }
 
-    let total_house_count = count_unique_houses(real_santa, robo_santa);
+    let all_houses: HashSet<_> = real_santa.houses.union(&robo_santa.houses).collect();
+    let set_total = all_houses.len();
 
-    println!("unique house count: {}", total_house_count);
+    println!("unique house count: {}", set_total);
 }
 
 fn apply_part(part: &str, santa: &mut Santa) {
@@ -68,54 +64,7 @@ fn apply_part(part: &str, santa: &mut Santa) {
         }
     }
 
-    match santa.gifts.get_mut(&santa.x) {
-        Some(hm) => {
-            match hm.get_mut(&santa.y) {
-                Some(&mut val) => {
-                    hm.insert(santa.y, val + 1);
-                }
-                None => {
-                    hm.insert(santa.y, 1);
-                }
-            }
-        },
-        None => {
-            let mut nested_map: HashMap<i32, i32> = HashMap::new();
-            nested_map.insert(santa.y, 1);
-            santa.gifts.insert(santa.x, nested_map);
-        }
-    };
-}
-
-fn count_houses(santa: Santa) -> i32 {
-    let mut total = 0;
-
-    for (_, nested_map) in santa.gifts {
-        for _ in nested_map {
-            total += 1;
-        }
-    }
-
-    return total;
-}
-
-fn count_unique_houses(santa1: Santa, santa2: Santa) -> usize {
-    let mut houses: HashSet<(i32, i32)> = HashSet::new();
-
-    for (x, nested_map) in santa1.gifts {
-        for (y, _) in nested_map {
-            houses.insert((x, y));
-        }
-    }
-
-    for (x, nested_map) in santa2.gifts {
-        for (y, _) in nested_map {
-            houses.insert((x, y));
-        }
-    }
-
-    return houses.len();
-
+    santa.houses.insert((santa.x, santa.y));
 }
 
 // fn get_test_input() -> String {
