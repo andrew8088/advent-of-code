@@ -18,7 +18,7 @@ where
     match fs::read_to_string(file_name) {
         Err(_) => println!("Cannot load file"),
         Ok(content) => {
-            func(content.trim().to_owned());
+            func(content.to_owned());
         }
     }
 }
@@ -28,7 +28,7 @@ where
     F: Fn(Vec<&str>),
 {
     get_input(|content| {
-        let lines: Vec<&str> = content.split('\n').map(|l| l.trim()).collect();
+        let lines: Vec<&str> = content.split('\n').collect();
         func(lines)
     })
 }
