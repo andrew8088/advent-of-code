@@ -13,8 +13,6 @@ fn main() {
         let mut dirs = Vec::new();
         let mut files: HashMap<String, usize> = HashMap::new();
 
-        dirs.push(String::from("/"));
-
         for line in lines { 
             let clean_line = line.trim();
 
@@ -52,8 +50,10 @@ fn main() {
             }
         }
 
-        let mut sum = 0;
-        let mut dir_sizes: HashMap<String, usize> = HashMap::new();
+        let mut part1_sum = 0;
+        let mut part2_min = REQUIRED_DISK_SPACE;
+
+        let unused_space: usize = TOTAL_DISK_SPACE - files.values().sum::<usize>();
 
         for dir in dirs {
             let mut dir_size = 0;
@@ -63,28 +63,17 @@ fn main() {
                 }
             }
 
-            dir_sizes.insert(dir, dir_size);
-
             if dir_size < 100_000 {
-                sum += dir_size;
+                part1_sum += dir_size;
+            }
+
+            let empty_disk_space = dir_size + unused_space;
+            if empty_disk_space > REQUIRED_DISK_SPACE && dir_size < part2_min {
+                part2_min = dir_size;
             }
         }
 
-        println!("part 1: {}", sum);
-
-        let unused_space = TOTAL_DISK_SPACE - dir_sizes.get("/").unwrap();
-
-        let mut min_dir_to_delete = REQUIRED_DISK_SPACE;
-
-        for (_, size) in &dir_sizes {
-            let empty_disk_space = size + unused_space;
-            if empty_disk_space > REQUIRED_DISK_SPACE && *size < min_dir_to_delete {
-                min_dir_to_delete = *size;
-            }
-        }
-
-        println!("part 2: {}", min_dir_to_delete);
+        println!("part 1: {}", part1_sum);
+        println!("part 2: {}", part2_min);
     });
 }
-
-
