@@ -32,3 +32,16 @@ where
         func(lines)
     })
 }
+
+pub fn transpose<T>(rows: &Vec<Vec<T>>) -> Vec<Vec<T>>
+where
+    T: Clone,
+{
+    (0..rows[0].len())
+        .map(|i| {
+            rows.iter()
+                .map(|inner| inner[i].clone())
+                .collect::<Vec<_>>()
+        })
+        .collect::<Vec<Vec<T>>>()
+}

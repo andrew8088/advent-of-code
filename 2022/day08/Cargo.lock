@@ -3,36 +3,18 @@
 version = 3
 
 [[package]]
-name = "autocfg"
-version = "1.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
-
-[[package]]
 name = "day08"
 version = "0.1.0"
 dependencies = [
- "spiral",
+ "take-until",
  "util",
 ]
 
 [[package]]
-name = "num-traits"
-version = "0.2.15"
+name = "take-until"
+version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "578ede34cf02f8924ab9447f50c28075b4d3e5b269972345e7e0372b38c6cdcd"
-dependencies = [
- "autocfg",
-]
-
-[[package]]
-name = "spiral"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "337538a1d3992a7a0792e1e81c630fa8c04d9dd160591a938afe5fe899e0c1da"
-dependencies = [
- "num-traits",
-]
+checksum = "b4e17d8598067a8c134af59cd33c1c263470e089924a11ab61cf61690919fe3b"
 
 [[package]]
 name = "util"
