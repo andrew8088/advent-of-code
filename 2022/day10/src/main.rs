@@ -12,40 +12,41 @@ fn main() {
                 "" => {}
                 "noop" => {
                     cycle += 1;
-                    check_cycle(cycle, x, &mut strength_sum, &mut pixels);
+                    run_cycle(cycle, x, &mut strength_sum, &mut pixels);
                 }
                 l => {
                     let v: isize = l.split(' ').last().unwrap().parse().unwrap();
                     cycle += 1;
-                    check_cycle(cycle, x, &mut strength_sum, &mut pixels);
+                    run_cycle(cycle, x, &mut strength_sum, &mut pixels);
                     cycle += 1;
-                    check_cycle(cycle, x, &mut strength_sum, &mut pixels);
+                    run_cycle(cycle, x, &mut strength_sum, &mut pixels);
                     x += v;
                 }
             }
         }
 
         println!("part 1: {}", strength_sum);
-        println!("part 2: {:?}", pixels);
+        println!("part 2:");
+        print_pixels(pixels);
     });
 }
 
-fn check_cycle(cycle: isize, x: isize, sum: &mut isize, pixels: &mut Vec<char>) {
+fn run_cycle(cycle: isize, x: isize, sum: &mut isize, pixels: &mut Vec<char>) {
     if cycle >= 20 && (cycle - 20) % 40 == 0 {
-        let signal_strength = cycle * x;
-        println!("cycle {} - x={}, strength={}", cycle, x, signal_strength);
-
-        *sum += signal_strength;
+        *sum += cycle * x;
     }
 
-    // let pixel_index = cycle - 1;
-    // let sprite_pos = x - 1..x + 2;
+    let pixel_index = (cycle - 1) % 40;
 
-    // println!("{} in {:?}?", pixel_index, sprite_pos);
+    pixels.push(if (x - 1..x + 2).contains(&pixel_index) {
+        '#'
+    } else {
+        '.'
+    });
+}
 
-    // pixels.push(if sprite_pos.contains(&pixel_index) {
-    //     '#'
-    // } else {
-    //     '.'
-    // })
+fn print_pixels(pixels: Vec<char>) {
+    for chunk in pixels.chunks(40) {
+        println!("{}", chunk.iter().collect::<String>());
+    }
 }
