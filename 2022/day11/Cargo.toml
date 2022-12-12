@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 util = { path = "../util" }
 sscanf = { version = "0.4.0" }
+num-bigint = { version = "0.4.3" }
