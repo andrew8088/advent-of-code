@@ -45,3 +45,30 @@ where
         })
         .collect::<Vec<Vec<T>>>()
 }
+
+pub type CharGrid = Vec<Vec<char>>;
+
+pub fn get_grid<F>(func: F)
+where
+    F: Fn(CharGrid),
+{
+    get_lines(|lines| {
+        let grid = lines
+            .iter()
+            .map(|l| l.trim())
+            .filter(|l| !l.is_empty())
+            .map(|l| l.chars().collect::<Vec<char>>())
+            .collect::<CharGrid>();
+
+        func(grid);
+    })
+}
+
+pub fn print_grid(grid: &CharGrid) {
+    for row in grid {
+        for cell in row {
+            print!("{}", cell);
+        }
+        println!("");
+    }
+}
